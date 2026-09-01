@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Authentik Shopping</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+color:#111;
+}
+
+header{
+background:linear-gradient(90deg,#d60000,#009640);
+padding:18px;
+color:white;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+header h1{
+text-align:center;
+}
+
+header p{
+text-align:center;
+font-size:13px;
+margin-top:5px;
+}
+
+.search{
+padding:12px;
+background:white;
+}
+
+.search input{
+width:100%;
+padding:12px;
+border-radius:25px;
+border:1px solid #ccc;
+font-size:15px;
+}
+
+.categories{
+display:flex;
+gap:10px;
+overflow:auto;
+padding:12px;
+background:white;
+}
+
+.categories button{
+padding:10px 16px;
+border:none;
+background:white;
+border-radius:20px;
+box-shadow:0 2px 5px rgba(0,0,0,.15);
+cursor:pointer;
+white-space:nowrap;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
+padding:15px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card-body{
+padding:10px;
+}
+
+.card h3{
+font-size:16px;
+margin-bottom:5px;
+}
+
+.price{
+color:#d60000;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.card button{
+width:100%;
+padding:11px;
+background:#009640;
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+}
+
+.cart-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#d60000;
+color:white;
+border:none;
+width:60px;
+height:60px;
+border-radius:50%;
+font-size:24px;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+#cartCount{
+position:absolute;
+top:-5px;
+right:-5px;
+background:black;
+color:white;
+border-radius:50%;
+padding:4px 8px;
+font-size:12px;
+}
+
+.cart{
+position:fixed;
+top:0;
+right:-100%;
+width:330px;
+max-width:100%;
+height:100%;
+background:white;
+transition:.3s;
+padding:15px;
+overflow:auto;
+box-shadow:-5px 0 15px rgba(0,0,0,.2);
+}
+
+.cart.open{
+right:0;
+}
+
+.cart-item{
+display:flex;
+gap:10px;
+margin:12px 0;
+}
+
+.cart-item img{
+width:70px;
+height:70px;
+border-radius:10px;
+object-fit:cover;
+}
+
+.qty button{
+width:25px;
+height:25px;
+border:none;
+background:#eee;
+border-radius:5px;
+}
+
+.total{
+font-size:20px;
+font-weight:bold;
+margin:15px 0;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:8px;
+}
+
+.whatsapp{
+width:100%;
+padding:13px;
+background:#25D366;
+color:white;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🛍️ Authentik Shopping</h1>
+
+<p>Toujours au bon endroit, moins cher.</p>
+
+</header>
+
+<div class="search">
+
+<input id="search" placeholder="Rechercher un produit...">
+
+</div>
+
+<div class="categories">
+
+<button onclick="filterProducts('all')">Tous</button>
+
+<button onclick="filterProducts('homme')">👨 Hommes</button>
+
+<button onclick="filterProducts('femme')">👩 Femmes</button>
+
+<button onclick="filterProducts('accessoire')">🎒 Accessoires</button>
+
+<button onclick="filterProducts('autre')">📦 Autres</button>
+
+</div>
+
+<div class="products" id="products"></div>
+
+<button class="cart-btn" onclick="toggleCart()">
+
+🛒
+
+<span id="cartCount">0</span>
+
+</button>
+
+<div class="cart" id="cart">
+
+<h2>Votre panier</h2>
+
+<div id="cartItems"></div>
+
+<div class="total" id="total">0 FCFA</div>
+
+<input id="nom" placeholder="Votre nom">
+
+<input id="tel" placeholder="Téléphone">
+
+<button class="whatsapp" onclick="commander()">Commander sur WhatsApp</button>
+
+</div>
+
+<script>
+
+const numero="22651918847";
+
+const products=[
+
+{
+
+id:1,
+
+name:"Haut manches longues Xing CDH",
+
+price:8500,
+
+cat:"homme",
+
+img:"images/xing-1.jpg"
+
+}
+
+];
+
+let cart=[];
+
+function display(list){
+
+document.getElementById("products").innerHTML=list.map(p=>`
+
+<div class="card">
+
+<img src="${p.img}">
+
+<div class="card-body">
+
+<h3>${p.name}</h3>
+
+<div class="price">${p.price.toLocaleString()} FCFA</div>
+
+<button onclick="add(${p.id})">Ajouter au panier</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+display(products);
+
+function filterProducts(cat){
+
+if(cat==="all") display(products);
+
+else display(products.filter(p=>p.cat===cat));
+
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+
+const t=e.target.value.toLowerCase();
+
+display(products.filter(p=>p.name.toLowerCase().includes(t)));
+
+});
+
+function add(id){
+
+const item=cart.find(x=>x.id===id);
+
+if(item){
+
+item.qty++;
+
+}
+
+else{
+
+const p=products.find(x=>x.id===id);
+
+cart.push({...p,qty:1});
+
+}
+
+renderCart();
+
+}
+
+function change(id,n){
+
+const item=cart.find(x=>x.id===id);
+
+item.qty+=n;
+
+if(item.qty<=0){
+
+cart=cart.filter(x=>x.id!==id);
+
+}
+
+renderCart();
+
+}
+
+function renderCart(){
+
+document.getElementById("cartItems").innerHTML=cart.map(i=>`
+
+<div class="cart-item">
+
+<img src="${i.img}">
+
+<div>
+
+<b>${i.name}</b><br>
+
+${i.price.toLocaleString()} FCFA<br>
+
+<div class="qty">
+
+<button onclick="change(${i.id},-1)">-</button>
+
+${i.qty}
+
+<button onclick="change(${i.id},1)">+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+const total=cart.reduce((a,b)=>a+b.price*b.qty,0);
+
+document.getElementById("total").innerHTML="Total : "+total.toLocaleString()+" FCFA";
+
+document.getElementById("cartCount").innerHTML=cart.reduce((a,b)=>a+b.qty,0);
+
+}
+
+function toggleCart(){
+
+document.getElementById("cart").classList.toggle("open");
+
+}
+
+function commander(){
+
+if(cart.length===0){
+
+alert("Votre panier est vide.");
+
+return;
+
+}
+
+const nom=document.getElementById("nom").value.trim();
+
+const tel=document.getElementById("tel").value.trim();
+
+if(!nom||!tel){
+
+alert("Veuillez remplir votre nom et votre téléphone.");
+
+return;
+
+}
+
+const total=cart.reduce((a,b)=>a+b.price*b.qty,0);
+
+let message="🛍️ Commande Authentik Shopping\n\n";
+
+message+="👤 Nom : "+nom+"\n";
+
+message+="📞 Téléphone : "+tel+"\n\n";
+
+message+="📦 Articles :\n";
+
+cart.forEach((i,index)=>{
+
+message+=(index+1)+". "+i.name+" x"+i.qty+" - "+(i.price*i.qty).toLocaleString()+" FCFA\n";
+
+});
+
+message+="\n💰 Total : "+total.toLocaleString()+" FCFA\n\n";
+
+const envoyer=(loc)=>{
+
+window.location.href="https://wa.me/"+numero+"?text="+encodeURIComponent(message+loc);
+
+};
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(
+
+(pos)=>{
+
+envoyer("📍 Localisation : https://maps.google.com/?q="+pos.coords.latitude+","+pos.coords.longitude);
+
+},
+
+()=>{
+
+envoyer("📍 Le client n'a pas autorisé la localisation.");
+
+},
+
+{
+
+enableHighAccuracy:true,
+
+timeout:10000
+
+}
+
+);
+
+}
+
+else{
+
+envoyer("📍 Localisation indisponible.");
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
