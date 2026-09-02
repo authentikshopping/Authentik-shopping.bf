@@ -1,0 +1,191 @@
+/* --- Style global de la page --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* --- Barre supérieure (Top Bar) --- */
+.top-bar {
+    background-color: #111;
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.top-bar i {
+    color: #25d366; /* Vert WhatsApp / accents */
+    margin-right: 5px;
+}
+
+/* --- En-tête principal (Header) --- */
+.main-header {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.menu-icon, .header-icons i {
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+.header-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Style du Logo AS AUTHENTIK SHOPPING */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo-as {
+    background-color: #e51937;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 900;
+}
+
+.logo-text {
+    color: #111;
+    letter-spacing: -0.5px;
+}
+
+.logo-text strong {
+    color: #e51937;
+}
+
+.cart-icon-logo {
+    color: #e51937;
+    font-size: 14px;
+    margin-left: 2px;
+}
+
+/* Icône Panier avec badge rouge */
+.cart-container {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #e51937;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+/* --- Barre de recherche --- */
+.search-container {
+    background-color: #ffffff;
+    padding: 10px 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #f1f2f4;
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.search-box i {
+    color: #888;
+    margin-right: 10px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.search-btn {
+    background-color: #e51937;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* --- Carrousel des catégories en cercles --- */
+.categories-carousel {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 15px;
+    background: #ffffff;
+    margin-bottom: 10px;
+    scrollbar-width: none; /* Cache la barre de défilement sur Firefox */
+}
+
+.categories-carousel::-webkit-scrollbar {
+    display: none; /* Cache la barre de défilement sur Chrome/Safari */
+}
+
+.cat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 65px;
+    cursor: pointer;
+}
+
+.cat-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f1f2f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    border: 1px solid #eee;
+    font-size: 20px;
+    color: #444;
+}
+
+.cat-circle.red-border {
+    border: 2px solid #e51937;
+    color: #e51937;
+}
+
+.cat-circle img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.cat-item span {
+    font-size: 12px;
+    color: #333;
+    font-weight: 500;
+}
